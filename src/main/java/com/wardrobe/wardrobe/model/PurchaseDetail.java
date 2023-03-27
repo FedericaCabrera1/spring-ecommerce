@@ -1,49 +1,49 @@
 package com.wardrobe.wardrobe.model;
 
-import com.wardrobe.wardrobe.utils.enums.EPurchaseStatus;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "purchases")
 public class PurchaseDetail {
-    private String Id;
-    private EPurchaseStatus status;
 
-    private LocalDateTime paidAt;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
     private double total;
 
-    public PurchaseDetail(String id, EPurchaseStatus status, LocalDateTime paidAt, double total) {
-        Id = id;
-        this.status = status;
-        this.paidAt = paidAt;
-        this.total = total;
+    @OneToOne
+    private Purchase purchase;
+
+    @OneToOne
+    private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
     }
 
     public PurchaseDetail() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         Id = id;
-    }
-
-    public EPurchaseStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EPurchaseStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getPaidAt() {
-        return paidAt;
-    }
-
-    public void setPaidAt(LocalDateTime paidAt) {
-        this.paidAt = paidAt;
     }
 
     public double getTotal() {
@@ -51,6 +51,11 @@ public class PurchaseDetail {
     }
 
     public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public PurchaseDetail(Integer id, double total) {
+        Id = id;
         this.total = total;
     }
 }
